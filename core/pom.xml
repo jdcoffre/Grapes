@@ -2,9 +2,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.axway.grapes</groupId>
-	<artifactId>grapes-server</artifactId>
+	<artifactId>grapes-core</artifactId>
 	
-	<name>Grapes server</name>
+	<name>Grapes core</name>
 	<description>Technical layer that holds all the dependency management and the database connection.</description>
 
 	<parent>
