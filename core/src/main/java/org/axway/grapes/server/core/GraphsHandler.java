@@ -1,6 +1,7 @@
 package org.axway.grapes.server.core;
 
 import org.axway.grapes.commons.datamodel.Artifact;
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.graphs.AbstractGraph;
 import org.axway.grapes.server.core.graphs.ModuleGraph;
 import org.axway.grapes.server.core.graphs.TreeNode;
@@ -42,7 +43,7 @@ public class GraphsHandler {
      * @param moduleId String
      * @return AbstractGraph
      */
-    public AbstractGraph getModuleGraph(final String moduleId) {
+    public AbstractGraph getModuleGraph(final String moduleId) throws GrapesException {
         final ModuleHandler moduleHandler = new ModuleHandler(repoHandler);
         final DbModule module = moduleHandler.getModule(moduleId);
         final DbOrganization organization = moduleHandler.getOrganization(module);
@@ -132,7 +133,7 @@ public class GraphsHandler {
      * @param moduleId
      * @return TreeNode
      */
-    public TreeNode getModuleTree(final String moduleId) {
+    public TreeNode getModuleTree(final String moduleId) throws GrapesException {
         final ModuleHandler moduleHandler = new ModuleHandler(repoHandler);
         final DbModule module = moduleHandler.getModule(moduleId);
 

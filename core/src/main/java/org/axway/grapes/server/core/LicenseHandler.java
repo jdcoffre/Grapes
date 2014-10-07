@@ -1,6 +1,7 @@
 package org.axway.grapes.server.core;
 
 import org.axway.grapes.commons.datamodel.License;
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.FiltersHolder;
 import org.axway.grapes.server.core.options.filters.LicenseIdFilter;
 import org.axway.grapes.server.db.ModelMapper;
@@ -10,8 +11,6 @@ import org.axway.grapes.server.db.datamodel.DbLicense;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,12 +80,11 @@ public class LicenseHandler {
      * @param name String
      * @return DbLicense
      */
-    public DbLicense getLicense(final String name) {
+    public DbLicense getLicense(final String name) throws GrapesException {
         final DbLicense license = repoHandler.getLicense(name);
 
         if(license == null){
-            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
-                    .entity("License " + name + " does not exist.").build());
+            throw new GrapesException("License " + name + " does not exist.");
         }
 
         return license;
@@ -97,7 +95,7 @@ public class LicenseHandler {
      *
      * @param name
      */
-    public void deleteLicense(final String name) {
+    public void deleteLicense(final String name) throws GrapesException {
         final DbLicense dbLicense = getLicense(name);
 
         repoHandler.deleteLicense(dbLicense.getName());
@@ -118,7 +116,7 @@ public class LicenseHandler {
      * @param name String
      * @param approved Boolean
      */
-    public void approveLicense(final String name, final Boolean approved) {
+    public void approveLicense(final String name, final Boolean approved) throws GrapesException {
         final DbLicense license = getLicense(name);
         repoHandler.approveLicense(license, approved);
     }

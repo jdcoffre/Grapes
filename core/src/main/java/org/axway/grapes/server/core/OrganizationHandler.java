@@ -1,12 +1,11 @@
 package org.axway.grapes.server.core;
 
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.filters.CorporateFilter;
 import org.axway.grapes.server.db.RepositoryHandler;
 import org.axway.grapes.server.db.datamodel.DbModule;
 import org.axway.grapes.server.db.datamodel.DbOrganization;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -48,12 +47,11 @@ public class OrganizationHandler {
      * @param organizationId String
      * @return DbOrganization
      */
-    public DbOrganization getOrganization(final String organizationId) {
+    public DbOrganization getOrganization(final String organizationId) throws GrapesException {
         final DbOrganization dbOrganization = repositoryHandler.getOrganization(organizationId);
 
         if(dbOrganization == null){
-            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
-                    .entity("Organization " + organizationId + " does not exist.").build());
+            throw new GrapesException("Organization " + organizationId + " does not exist.");
         }
 
         return dbOrganization;
@@ -64,7 +62,7 @@ public class OrganizationHandler {
      *
      * @param organizationId String
      */
-    public void deleteOrganization(final String organizationId) {
+    public void deleteOrganization(final String organizationId) throws GrapesException {
         final DbOrganization dbOrganization = getOrganization(organizationId);
         repositoryHandler.deleteOrganization(dbOrganization.getName());
         repositoryHandler.removeModulesOrganization(dbOrganization);
@@ -76,7 +74,7 @@ public class OrganizationHandler {
      * @param organizationId String
      * @return ListView
      */
-    public List<String> getCorporateGroupIds(final String organizationId) {
+    public List<String> getCorporateGroupIds(final String organizationId) throws GrapesException {
         final DbOrganization dbOrganization = getOrganization(organizationId);
         return dbOrganization.getCorporateGroupIdPrefixes();
     }
@@ -87,7 +85,7 @@ public class OrganizationHandler {
      * @param organizationId String
      * @param corporateGroupId String
      */
-    public void addCorporateGroupId(final String organizationId, final String corporateGroupId) {
+    public void addCorporateGroupId(final String organizationId, final String corporateGroupId) throws GrapesException {
         final DbOrganization dbOrganization = getOrganization(organizationId);
 
         if(!dbOrganization.getCorporateGroupIdPrefixes().contains(corporateGroupId)){
@@ -104,7 +102,7 @@ public class OrganizationHandler {
      * @param organizationId String
      * @param corporateGroupId String
      */
-    public void removeCorporateGroupId(final String organizationId, final String corporateGroupId) {
+    public void removeCorporateGroupId(final String organizationId, final String corporateGroupId) throws GrapesException {
         final DbOrganization dbOrganization = getOrganization(organizationId);
 
         if(dbOrganization.getCorporateGroupIdPrefixes().contains(corporateGroupId)){
@@ -122,7 +120,7 @@ public class OrganizationHandler {
      * @param dbModule DbModule
      * @return DbOrganization
      */
-    public DbOrganization getMatchingOrganization(final DbModule dbModule) {
+    public DbOrganization getMatchingOrganization(final DbModule dbModule) throws GrapesException {
         if(dbModule.getOrganization() != null
                 && !dbModule.getOrganization().isEmpty()){
             return getOrganization(dbModule.getOrganization());

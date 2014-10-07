@@ -1,5 +1,6 @@
 package org.axway.grapes.server.db;
 
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.FiltersHolder;
 import org.axway.grapes.server.db.datamodel.*;
 import org.axway.grapes.server.db.datamodel.DbCredential.AvailableRoles;
@@ -36,7 +37,7 @@ public interface RepositoryHandler {
      * @param user String
      * @param role AvailableRoles
      */
-    public void addUserRole(final String user, final AvailableRoles role);
+    public void addUserRole(final String user, final AvailableRoles role) throws GrapesException;
 
     /**
      * Remove a role to the targeted user
@@ -44,7 +45,7 @@ public interface RepositoryHandler {
      * @param user String
      * @param role AvailableRoles
      */
-    public void removeUserRole(final String user, final AvailableRoles role);
+    public void removeUserRole(final String user, final AvailableRoles role) throws GrapesException;
 
     /**
      * Store a new license or update an existing one
@@ -81,7 +82,7 @@ public interface RepositoryHandler {
      *
      * @param name String
      */
-    public void deleteLicense(final String name);
+    public void deleteLicense(final String name) throws GrapesException;
 
     /**
      * Return a list of all the artifacts that match the filters
@@ -159,7 +160,7 @@ public interface RepositoryHandler {
      *
      * @param gavc String
      */
-    public void deleteArtifact(final String gavc);
+    public void deleteArtifact(final String gavc) throws GrapesException;
 
     /**
      * Update "DO_NOT_USE" field of an artifact
@@ -240,7 +241,7 @@ public interface RepositoryHandler {
      *
      * @param moduleId String
      */
-    public void deleteModule(final String moduleId);
+    public void deleteModule(final String moduleId) throws GrapesException;
 
     /**
      * Promote the targeted module

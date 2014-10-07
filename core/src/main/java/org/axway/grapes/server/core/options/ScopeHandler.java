@@ -4,7 +4,7 @@ import org.axway.grapes.commons.api.ServerAPI;
 import org.axway.grapes.commons.datamodel.Scope;
 import org.axway.grapes.server.db.datamodel.DbDependency;
 
-import javax.ws.rs.core.MultivaluedMap;
+import java.util.Map;
 
 public class ScopeHandler {
 
@@ -33,20 +33,20 @@ public class ScopeHandler {
      *
      * @param queryParameters
      */
-    public void init(final MultivaluedMap<String, String> queryParameters) {
-        final String scopeCompileParam = queryParameters.getFirst(ServerAPI.SCOPE_COMPILE_PARAM);
+    public void init(final Map<String, String> queryParameters) {
+        final String scopeCompileParam = queryParameters.get(ServerAPI.SCOPE_COMPILE_PARAM);
         if(scopeCompileParam != null){
             this.scopeComp = Boolean.valueOf(scopeCompileParam);
         }
-        final String scopeProvidedParam = queryParameters.getFirst(ServerAPI.SCOPE_PROVIDED_PARAM);
+        final String scopeProvidedParam = queryParameters.get(ServerAPI.SCOPE_PROVIDED_PARAM);
         if(scopeProvidedParam != null){
             this.scopePro = Boolean.valueOf(scopeProvidedParam);
         }
-        final String scopeRuntimeParam = queryParameters.getFirst(ServerAPI.SCOPE_RUNTIME_PARAM);
+        final String scopeRuntimeParam = queryParameters.get(ServerAPI.SCOPE_RUNTIME_PARAM);
         if(scopeRuntimeParam != null){
             this.scopeRun = Boolean.valueOf(scopeRuntimeParam);
         }
-        final String scopeTestParam = queryParameters.getFirst(ServerAPI.SCOPE_TEST_PARAM);
+        final String scopeTestParam = queryParameters.get(ServerAPI.SCOPE_TEST_PARAM);
         if(scopeTestParam != null){
             this.scopeTest = Boolean.valueOf(scopeTestParam);
         }

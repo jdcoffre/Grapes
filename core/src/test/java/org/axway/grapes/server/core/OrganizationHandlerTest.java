@@ -2,16 +2,13 @@ package org.axway.grapes.server.core;
 
 
 import org.axway.grapes.server.GrapesTestUtils;
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.db.RepositoryHandler;
 import org.axway.grapes.server.db.datamodel.DbArtifact;
 import org.axway.grapes.server.db.datamodel.DbModule;
 import org.axway.grapes.server.db.datamodel.DbOrganization;
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
@@ -44,7 +41,7 @@ public class OrganizationHandlerTest {
     }
 
     @Test
-    public void getAnExistingOrganization(){
+    public void getAnExistingOrganization() throws GrapesException {
         final DbOrganization organization = new DbOrganization();
         organization.setName("test");
 
@@ -63,20 +60,19 @@ public class OrganizationHandlerTest {
     public void getAnOrganizationThatDoesNotExist(){
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final OrganizationHandler handler = new OrganizationHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.getOrganization("doesNotExist");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        Assert.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void deleteAnExistingOrganization(){
+    public void deleteAnExistingOrganization() throws GrapesException {
         final DbOrganization organization = new DbOrganization();
         organization.setName("test");
 
@@ -93,20 +89,19 @@ public class OrganizationHandlerTest {
     public void deleteAnOrganizationThatDoesNotExist(){
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final OrganizationHandler handler = new OrganizationHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.deleteOrganization("doesNotExist");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        Assert.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void addCorporateGroupId(){
+    public void addCorporateGroupId() throws GrapesException {
         final DbOrganization dbOrganization= new DbOrganization();
         dbOrganization.setName("organization1");
         dbOrganization.getCorporateGroupIdPrefixes().add("org.test");
@@ -125,7 +120,7 @@ public class OrganizationHandlerTest {
     }
 
     @Test
-    public void addCorporateGroupIdThatAlreadyExist(){
+    public void addCorporateGroupIdThatAlreadyExist() throws GrapesException {
         final DbOrganization dbOrganization= new DbOrganization();
         dbOrganization.setName("organization1");
         dbOrganization.getCorporateGroupIdPrefixes().add("org.test");
@@ -141,7 +136,7 @@ public class OrganizationHandlerTest {
     }
 
     @Test
-    public void removeCorporateGroupId(){
+    public void removeCorporateGroupId() throws GrapesException {
         final DbOrganization dbOrganization= new DbOrganization();
         dbOrganization.setName("organization1");
         dbOrganization.getCorporateGroupIdPrefixes().add("org.test");
@@ -160,7 +155,7 @@ public class OrganizationHandlerTest {
     }
 
     @Test
-    public void removeCorporateGroupIdThatDoesNotExist(){
+    public void removeCorporateGroupIdThatDoesNotExist() throws GrapesException {
         final DbOrganization dbOrganization= new DbOrganization();
         dbOrganization.setName("organization1");
         dbOrganization.getCorporateGroupIdPrefixes().add("org.test");
@@ -176,7 +171,7 @@ public class OrganizationHandlerTest {
     }
 
     @Test
-    public void getMatchingOrganizationOfAModuleWhenIsAlreadyOne(){
+    public void getMatchingOrganizationOfAModuleWhenIsAlreadyOne() throws GrapesException {
         final DbOrganization organization = new DbOrganization();
         organization.setName("test");
 
@@ -195,7 +190,7 @@ public class OrganizationHandlerTest {
     }
 
     @Test
-    public void getMatchingOrganizationOfAModule(){
+    public void getMatchingOrganizationOfAModule() throws GrapesException {
         final DbModule module = new DbModule();
         final DbArtifact artifact = new DbArtifact();
         artifact.setGroupId(GrapesTestUtils.CORPORATE_GROUPID_4TEST);
@@ -211,7 +206,7 @@ public class OrganizationHandlerTest {
     }
 
     @Test
-    public void getMatchingOrganizationOfAModuleWhenThereIsNone(){
+    public void getMatchingOrganizationOfAModuleWhenThereIsNone() throws GrapesException {
         final DbModule module = new DbModule();
         final DbArtifact artifact = new DbArtifact();
         artifact.setGroupId("unknown.production");

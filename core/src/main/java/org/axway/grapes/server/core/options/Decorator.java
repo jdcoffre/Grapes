@@ -2,7 +2,7 @@ package org.axway.grapes.server.core.options;
 
 import org.axway.grapes.commons.api.ServerAPI;
 
-import javax.ws.rs.core.MultivaluedMap;
+import java.util.Map;
 
 /**
  * Decorator
@@ -294,20 +294,20 @@ public class Decorator {
         }
     }
 
-    public void init(final MultivaluedMap<String, String> queryParameters){
-        setShowScopes(queryParameters.getFirst(ServerAPI.SHOW_SCOPE_PARAM));
-        setShowLicenses(queryParameters.getFirst(ServerAPI.SHOW_LICENSE_PARAM));
-        setShowThirdparty(queryParameters.getFirst(ServerAPI.SHOW_THIRPARTY_PARAM));
-        setShowCorporate(queryParameters.getFirst(ServerAPI.SHOW_CORPORATE_PARAM));
-        setShowSources(queryParameters.getFirst(ServerAPI.SHOW_SOURCES_PARAM));
-        setShowAncestors(queryParameters.getFirst(ServerAPI.SHOW_ANCESTOR_PARAM));
-        setShowProviders(queryParameters.getFirst(ServerAPI.SHOW_PROVIDERS_PARAM));
-        setShowTargets(queryParameters.getFirst(ServerAPI.SHOW_TARGET_PARAM));
-        setShowTargetsDownloadUrl(queryParameters.getFirst(ServerAPI.SHOW_TARGET_URL_PARAM));
-        setShowTargetsSize(queryParameters.getFirst(ServerAPI.SHOW_SIZE));
-        setShowSourcesVersion(queryParameters.getFirst(ServerAPI.SHOW_SOURCES_VERSION_PARAM));
-        setShowLicensesLongName(queryParameters.getFirst(ServerAPI.SHOW_LICENSE_FULL_NAME_PARAM));
-        setShowLicensesComment(queryParameters.getFirst(ServerAPI.SHOW_LICENSE_COMMENT_PARAM));
-        setShowLicensesUrl(queryParameters.getFirst(ServerAPI.SHOW_LICENSE_URL_PARAM));
+    public void init(final Map<String, String> queryParameters){
+        setShowScopes(queryParameters.get(ServerAPI.SHOW_SCOPE_PARAM));
+        setShowLicenses(queryParameters.get(ServerAPI.SHOW_LICENSE_PARAM));
+        setShowThirdparty(queryParameters.get(ServerAPI.SHOW_THIRPARTY_PARAM));
+        setShowCorporate(queryParameters.get(ServerAPI.SHOW_CORPORATE_PARAM));
+        setShowSources(queryParameters.get(ServerAPI.SHOW_SOURCES_PARAM));
+        setShowAncestors(queryParameters.get(ServerAPI.SHOW_ANCESTOR_PARAM));
+        setShowProviders(queryParameters.get(ServerAPI.SHOW_PROVIDERS_PARAM));
+        setShowTargets(queryParameters.get(ServerAPI.SHOW_TARGET_PARAM));
+        setShowTargetsDownloadUrl(queryParameters.get(ServerAPI.SHOW_TARGET_URL_PARAM));
+        setShowTargetsSize(queryParameters.get(ServerAPI.SHOW_SIZE));
+        setShowSourcesVersion(queryParameters.get(ServerAPI.SHOW_SOURCES_VERSION_PARAM));
+        setShowLicensesLongName(queryParameters.get(ServerAPI.SHOW_LICENSE_FULL_NAME_PARAM));
+        setShowLicensesComment(queryParameters.get(ServerAPI.SHOW_LICENSE_COMMENT_PARAM));
+        setShowLicensesUrl(queryParameters.get(ServerAPI.SHOW_LICENSE_URL_PARAM));
     }
 }

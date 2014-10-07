@@ -2,6 +2,7 @@ package org.axway.grapes.server.core;
 
 import com.google.common.collect.Lists;
 import org.axway.grapes.server.GrapesTestUtils;
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.db.RepositoryHandler;
 import org.axway.grapes.server.db.datamodel.DbProduct;
 import org.junit.Test;
@@ -66,7 +67,7 @@ public class ProductHandlerTest {
     }
 
     @Test
-    public void getAnExistingProduct(){
+    public void getAnExistingProduct() throws GrapesException {
         final DbProduct product = new DbProduct();
         product.setName("product1");
         final RepositoryHandler repositoryHandler = GrapesTestUtils.getRepoHandlerMock();
@@ -97,7 +98,7 @@ public class ProductHandlerTest {
     }
 
     @Test
-    public void deleteAProduct(){
+    public void deleteAProduct() throws GrapesException {
         final DbProduct product = new DbProduct();
         product.setName("product1");
         final RepositoryHandler repositoryHandler = GrapesTestUtils.getRepoHandlerMock();
@@ -127,7 +128,7 @@ public class ProductHandlerTest {
     }
 
     @Test
-    public void setProductModules(){
+    public void setProductModules() throws GrapesException {
         final DbProduct product = new DbProduct();
         product.setName("product1");
         final RepositoryHandler repositoryHandler = GrapesTestUtils.getRepoHandlerMock();

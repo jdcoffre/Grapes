@@ -2,6 +2,7 @@ package org.axway.grapes.server.core;
 
 
 import org.axway.grapes.commons.datamodel.Scope;
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.FiltersHolder;
 import org.axway.grapes.server.db.RepositoryHandler;
 import org.axway.grapes.server.db.datamodel.DbArtifact;
@@ -9,7 +10,6 @@ import org.axway.grapes.server.db.datamodel.DbLicense;
 import org.axway.grapes.server.db.datamodel.DbModule;
 import org.junit.Test;
 
-import javax.ws.rs.WebApplicationException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +43,7 @@ public class ModuleHandlerTest {
     }
 
     @Test
-    public void getVersionsOfAModule(){
+    public void getVersionsOfAModule() throws GrapesException {
         final DbModule module = new DbModule();
         module.setName("module");
         module.setVersion("1.0.0-SNAPSHOT");
@@ -71,21 +71,20 @@ public class ModuleHandlerTest {
         when(repositoryHandler.getModuleVersions("doesNotExist", filters)).thenReturn(new ArrayList<String>());
         final ModuleHandler handler = new ModuleHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try{
             handler.getModuleVersions("doesNotExist", filters);
         }
-        catch (WebApplicationException e){
+        catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(javax.ws.rs.core.Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void getAModule(){
+    public void getAModule() throws GrapesException {
         final DbModule module = new DbModule();
         module.setName("module");
         module.setVersion("1.0.0-SNAPSHOT");
@@ -108,21 +107,20 @@ public class ModuleHandlerTest {
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ModuleHandler handler = new ModuleHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try{
             handler.getModule("doesNotExist");
         }
-        catch (WebApplicationException e){
+        catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(javax.ws.rs.core.Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void deleteAModule(){
+    public void deleteAModule() throws GrapesException {
         final DbModule module = new DbModule();
         module.setName("module");
         module.setVersion("1.0.0-SNAPSHOT");
@@ -171,21 +169,20 @@ public class ModuleHandlerTest {
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ModuleHandler handler = new ModuleHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try{
             handler.deleteModule("doesNotExist");
         }
-        catch (WebApplicationException e){
+        catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(javax.ws.rs.core.Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void promoteAModule(){
+    public void promoteAModule() throws GrapesException {
         final DbModule module = new DbModule();
         module.setName("module");
         module.setVersion("1.0.0-SNAPSHOT");
@@ -211,21 +208,20 @@ public class ModuleHandlerTest {
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ModuleHandler handler = new ModuleHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try{
             handler.promoteModule("doesNotExist");
         }
-        catch (WebApplicationException e){
+        catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(javax.ws.rs.core.Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void getModuleLicenses(){
+    public void getModuleLicenses() throws GrapesException {
         final DbModule module = new DbModule();
         module.setName("module");
         module.setVersion("1.0.0-SNAPSHOT");

@@ -7,8 +7,8 @@ import com.google.common.collect.Lists;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
-import com.sun.jersey.api.NotFoundException;
 import org.axway.grapes.server.config.DataBaseConfig;
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.FiltersHolder;
 import org.axway.grapes.server.db.DataUtils;
 import org.axway.grapes.server.db.RepositoryHandler;
@@ -17,8 +17,6 @@ import org.axway.grapes.server.db.datamodel.DbCredential.AvailableRoles;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -85,11 +83,11 @@ public class MongodbHandler implements RepositoryHandler {
 	}
 
     @Override
-    public void addUserRole(final String user, final AvailableRoles role) {
+    public void addUserRole(final String user, final AvailableRoles role) throws GrapesException {
         final DbCredential credential = getCredential(user);
 
         if(credential == null){
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new GrapesException("User not found");
         }
 
         final Jongo datastore = getJongoDataStore();
@@ -106,11 +104,11 @@ public class MongodbHandler implements RepositoryHandler {
     }
 
     @Override
-    public void removeUserRole(final String user, final AvailableRoles role) {
+    public void removeUserRole(final String user, final AvailableRoles role) throws GrapesException {
         final DbCredential credential = getCredential(user);
 
         if(credential == null){
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new GrapesException("User not found");
         }
 
         final Jongo datastore = getJongoDataStore();
@@ -181,11 +179,11 @@ public class MongodbHandler implements RepositoryHandler {
     }
 
     @Override
-    public void deleteLicense(final String name) {
+    public void deleteLicense(final String name) throws GrapesException {
         final DbLicense license = getLicense(name);
 
         if(license == null){
-            throw new NotFoundException("The license does not exist: " + name);
+            throw new GrapesException("License not found");
         }
         else{
             final Jongo datastore = getJongoDataStore();
@@ -298,11 +296,11 @@ public class MongodbHandler implements RepositoryHandler {
     }
 
     @Override
-    public void deleteArtifact(final String gavc) {
+    public void deleteArtifact(final String gavc) throws GrapesException {
         final DbArtifact artifact = getArtifact(gavc);
 
         if(artifact == null){
-            throw new NotFoundException("The artifact does not exist: " + gavc);
+            throw new GrapesException("The artifact does not exist: " + gavc);
         }
         else{
             final Jongo datastore = getJongoDataStore();
@@ -423,11 +421,11 @@ public class MongodbHandler implements RepositoryHandler {
 
 
     @Override
-    public void deleteModule(final String moduleId) {
+    public void deleteModule(final String moduleId) throws GrapesException {
         final DbModule module = getModule(moduleId);
 
         if(module == null){
-            throw new NotFoundException("The module does not exist: " + moduleId);
+            throw new GrapesException("The module does not exist: " + moduleId);
         }
         else{
             final Jongo datastore = getJongoDataStore();

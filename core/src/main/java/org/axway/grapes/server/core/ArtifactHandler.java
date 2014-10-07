@@ -1,6 +1,7 @@
 package org.axway.grapes.server.core;
 
 
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.FiltersHolder;
 import org.axway.grapes.server.db.RepositoryHandler;
 import org.axway.grapes.server.db.datamodel.DbArtifact;
@@ -10,8 +11,6 @@ import org.axway.grapes.server.db.datamodel.DbOrganization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,7 +58,7 @@ public class ArtifactHandler {
      * @param gavc String
      * @param licenseId String
      */
-    public void addLicense(final String gavc, final String licenseId) {
+    public void addLicense(final String gavc, final String licenseId) throws GrapesException {
         final DbArtifact dbArtifact = getArtifact(gavc);
 
         // Try to find an existing license that match the new one
@@ -107,7 +106,7 @@ public class ArtifactHandler {
      * @param gavc String
      * @return List<String>
      */
-    public List<String> getArtifactVersions(final String gavc) {
+    public List<String> getArtifactVersions(final String gavc) throws GrapesException {
         final DbArtifact artifact = getArtifact(gavc);
         return repositoryHandler.getArtifactVersions(artifact);
     }
@@ -118,7 +117,7 @@ public class ArtifactHandler {
      * @param gavc String
      * @return String
      */
-    public String getArtifactLastVersion(final String gavc) {
+    public String getArtifactLastVersion(final String gavc) throws GrapesException {
         final List<String> versions = getArtifactVersions(gavc);
 
         try{
@@ -137,12 +136,11 @@ public class ArtifactHandler {
      * @param gavc String
      * @return DbArtifact
      */
-    public DbArtifact getArtifact(final String gavc) {
+    public DbArtifact getArtifact(final String gavc) throws GrapesException {
         final DbArtifact artifact = repositoryHandler.getArtifact(gavc);
 
         if(artifact == null){
-            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
-                    .entity("Artifact " + gavc + " does not exist.").build());
+            throw new GrapesException("Artifact " + gavc + " does not exist.");
         }
 
         return artifact;
@@ -180,7 +178,7 @@ public class ArtifactHandler {
      * @param gavc String
      * @param downLoadUrl String
      */
-    public void updateDownLoadUrl(final String gavc, final String downLoadUrl) {
+    public void updateDownLoadUrl(final String gavc, final String downLoadUrl) throws GrapesException {
         final DbArtifact artifact = getArtifact(gavc);
         repositoryHandler.updateDownloadUrl(artifact, downLoadUrl);
     }
@@ -191,7 +189,7 @@ public class ArtifactHandler {
      * @param gavc String
      * @param provider String
      */
-    public void updateProvider(final String gavc, final String provider) {
+    public void updateProvider(final String gavc, final String provider) throws GrapesException {
         final DbArtifact artifact = getArtifact(gavc);
         repositoryHandler.updateProvider(artifact, provider);
     }
@@ -201,7 +199,7 @@ public class ArtifactHandler {
      *
      * @param gavc String
      */
-    public void deleteArtifact(final String gavc){
+    public void deleteArtifact(final String gavc) throws GrapesException {
         getArtifact(gavc);
         repositoryHandler.deleteArtifact(gavc);
     }
@@ -212,7 +210,7 @@ public class ArtifactHandler {
      * @param gavc String
      * @param doNotUse Boolean
      */
-    public void updateDoNotUse(final String gavc, final Boolean doNotUse) {
+    public void updateDoNotUse(final String gavc, final Boolean doNotUse) throws GrapesException {
         final DbArtifact artifact = getArtifact(gavc);
         repositoryHandler.updateDoNotUse(artifact, doNotUse);
     }
@@ -224,7 +222,7 @@ public class ArtifactHandler {
      * @param filters FiltersHolder
      * @return List<DbModule>
      */
-    public List<DbModule> getAncestors(final String gavc, final FiltersHolder filters) {
+    public List<DbModule> getAncestors(final String gavc, final FiltersHolder filters) throws GrapesException {
         final DbArtifact dbArtifact = getArtifact(gavc);
         return repositoryHandler.getAncestors(dbArtifact, filters);
     }
@@ -236,7 +234,7 @@ public class ArtifactHandler {
      * @param filters FiltersHolder
      * @return List<DbLicense>
      */
-    public List<DbLicense> getArtifactLicenses(final String gavc, final FiltersHolder filters) {
+    public List<DbLicense> getArtifactLicenses(final String gavc, final FiltersHolder filters) throws GrapesException {
         final DbArtifact artifact = getArtifact(gavc);
         final List<DbLicense> licenses = new ArrayList<DbLicense>();
 
@@ -264,7 +262,7 @@ public class ArtifactHandler {
      * @param gavc String
      * @param licenseId String
      */
-    public void addLicenseToArtifact(final String gavc, final String licenseId) {
+    public void addLicenseToArtifact(final String gavc, final String licenseId) throws GrapesException {
         final DbArtifact dbArtifact = getArtifact(gavc);
 
         // Don't need to access the DB if the job is already done
@@ -274,8 +272,7 @@ public class ArtifactHandler {
 
         final DbLicense dbLicense = repositoryHandler.getLicense(licenseId);
         if(dbLicense == null){
-            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
-                    .entity("License " + licenseId + " does not exist.").build());
+            throw new GrapesException("License " + licenseId + " does not exist.");
         }
 
         repositoryHandler.addLicenseToArtifact(dbArtifact, dbLicense.getName());
@@ -287,7 +284,7 @@ public class ArtifactHandler {
      * @param gavc String
      * @param licenseId String
      */
-    public void removeLicenseFromArtifact(final String gavc, final String licenseId) {
+    public void removeLicenseFromArtifact(final String gavc, final String licenseId) throws GrapesException {
         final DbArtifact dbArtifact = getArtifact(gavc);
 
         // Don't need to access the DB if the job is already done

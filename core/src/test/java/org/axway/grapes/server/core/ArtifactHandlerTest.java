@@ -1,6 +1,7 @@
 package org.axway.grapes.server.core;
 
 
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.FiltersHolder;
 import org.axway.grapes.server.db.RepositoryHandler;
 import org.axway.grapes.server.db.datamodel.DbArtifact;
@@ -9,8 +10,6 @@ import org.axway.grapes.server.db.datamodel.DbModule;
 import org.axway.grapes.server.db.datamodel.DbOrganization;
 import org.junit.Test;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,7 +62,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void addAnExistingLicenseToAnArtifactThatDoesNotHoldAnyLicenseYet(){
+    public void addAnExistingLicenseToAnArtifactThatDoesNotHoldAnyLicenseYet() throws GrapesException {
         final DbLicense license = new DbLicense();
         license.setName("testLicense");
 
@@ -80,7 +79,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void addAnExistingLicenseToAnArtifactThatHoldsAnOtherLicense(){
+    public void addAnExistingLicenseToAnArtifactThatHoldsAnOtherLicense() throws GrapesException {
         final DbLicense license = new DbLicense();
         license.setName("testLicense");
 
@@ -98,7 +97,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void addANoneExistingLicenseToAnArtifactThatDoesNotHoldAnyLicenseYet(){
+    public void addANoneExistingLicenseToAnArtifactThatDoesNotHoldAnyLicenseYet() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
 
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
@@ -111,7 +110,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void addANoneExistingLicenseToAnArtifactThatAlreadyHoldALicense(){
+    public void addANoneExistingLicenseToAnArtifactThatAlreadyHoldALicense() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.addLicense("Test License");
 
@@ -125,7 +124,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void addAnExistingLicenseToAnArtifactThatAlreadyHoldTheLicense(){
+    public void addAnExistingLicenseToAnArtifactThatAlreadyHoldTheLicense() throws GrapesException {
         final DbLicense license = new DbLicense();
         license.setName("testLicense");
 
@@ -153,16 +152,15 @@ public class ArtifactHandlerTest {
         when(repositoryHandler.getAllLicenses()).thenReturn(Collections.singletonList(license));
 
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try{
             handler.addLicense(artifact.getGavc(), license.getName());
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
@@ -184,7 +182,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void checkAvailableVersionsOfAnExistingArtifact(){
+    public void checkAvailableVersionsOfAnExistingArtifact() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -211,20 +209,19 @@ public class ArtifactHandlerTest {
 
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.getArtifactVersions(artifact.getGavc());
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void getTheLastVersionOfAnExistingArtifactThatHaveComparableVersions(){
+    public void getTheLastVersionOfAnExistingArtifactThatHaveComparableVersions() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -245,7 +242,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void getTheLastVersionOfAnExistingArtifactThatHaveVersionsThatCannotBeComparedWithVersionHandler(){
+    public void getTheLastVersionOfAnExistingArtifactThatHaveVersionsThatCannotBeComparedWithVersionHandler() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("AAAAA");
@@ -269,20 +266,19 @@ public class ArtifactHandlerTest {
     public void getTheLastVersionOfAnArtifactThatDoesNotExist(){
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try{
             handler.getArtifactLastVersion("doesNotExist");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void getAnExistingArtifact(){
+    public void getAnExistingArtifact() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -302,16 +298,15 @@ public class ArtifactHandlerTest {
     public void getAnArtifactThatDoesNotExist(){
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.getArtifact("doesNotExist");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
@@ -367,7 +362,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void updateTheProviderOfAnExistingArtifact(){
+    public void updateTheProviderOfAnExistingArtifact() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -386,20 +381,19 @@ public class ArtifactHandlerTest {
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.updateProvider("doesNotExist", "me");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void updateTheDownloadUrlOfAnExistingArtifact(){
+    public void updateTheDownloadUrlOfAnExistingArtifact() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -418,20 +412,19 @@ public class ArtifactHandlerTest {
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.updateDownLoadUrl("doesNotExist", "http://download.url");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void deleteAnArtifact(){
+    public void deleteAnArtifact() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -450,20 +443,19 @@ public class ArtifactHandlerTest {
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.deleteArtifact("doesNotExist");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void updateDoNotUseFlagOfAnExistingArtifact(){
+    public void updateDoNotUseFlagOfAnExistingArtifact() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -482,20 +474,19 @@ public class ArtifactHandlerTest {
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.updateDoNotUse("doesNotExit", true);
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void getAncestorsOfAnExistingArtifact(){
+    public void getAncestorsOfAnExistingArtifact() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -516,20 +507,19 @@ public class ArtifactHandlerTest {
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.getAncestors("doesNotExist", mock(FiltersHolder.class));
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void addALicenseToAnArtifact(){
+    public void addALicenseToAnArtifact() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -548,7 +538,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void addALicenseToAnArtifactThatAlreadyHasThisLicense(){
+    public void addALicenseToAnArtifactThatAlreadyHasThisLicense() throws GrapesException {
         final DbLicense license = new DbLicense();
         license.setName("licenseTest");
 
@@ -576,16 +566,15 @@ public class ArtifactHandlerTest {
         when(repositoryHandler.getLicense(license.getName())).thenReturn(license);
 
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.addLicenseToArtifact("doesNotExist", license.getName());
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
@@ -598,20 +587,19 @@ public class ArtifactHandlerTest {
         when(repositoryHandler.getArtifact(artifact.getGavc())).thenReturn(artifact);
 
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.addLicenseToArtifact(artifact.getGavc(), "doesNotExist");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void removeALicenseFromAnArtifact(){
+    public void removeALicenseFromAnArtifact() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -627,7 +615,7 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void removeALicenseAnArtifactThatDoesNotHaveThisLicense(){
+    public void removeALicenseAnArtifactThatDoesNotHaveThisLicense() throws GrapesException {
         final DbArtifact artifact = new DbArtifact();
         artifact.setArtifactId("test");
         artifact.setVersion("1.0.0-SNAPSHOT");
@@ -645,16 +633,15 @@ public class ArtifactHandlerTest {
     public void removeALicenseFromAnArtifactThatDoeNotExist(){
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final ArtifactHandler handler = new ArtifactHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.addLicenseToArtifact("doesNotExist", "doesNotExist");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
 

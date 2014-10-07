@@ -5,7 +5,6 @@ import org.axway.grapes.server.db.RepositoryHandler;
 import org.axway.grapes.server.db.datamodel.DbCredential;
 import org.axway.grapes.server.db.datamodel.DbCredential.AvailableRoles;
 import org.axway.grapes.server.db.datamodel.DbOrganization;
-import org.axway.grapes.server.webapp.auth.GrapesAuthenticator;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,7 +26,7 @@ public class GrapesTestUtils {
 
             final DbCredential user = new DbCredential();
             user.setUser(USER_4TEST);
-            user.setPassword(GrapesAuthenticator.encrypt(PASSWORD_4TEST));
+            user.setPassword(PASSWORD_4TEST);
             user.addRole(AvailableRoles.ARTIFACT_CHECKER);
             user.addRole(AvailableRoles.DATA_DELETER);
             user.addRole(AvailableRoles.DATA_UPDATER);
@@ -37,7 +36,7 @@ public class GrapesTestUtils {
 
             final DbCredential wrongUser = new DbCredential();
             wrongUser.setUser(WRONG_USER_4TEST);
-            wrongUser.setPassword(GrapesAuthenticator.encrypt(WRONG_PASSWORD_4TEST));
+            wrongUser.setPassword(WRONG_PASSWORD_4TEST);
             when(repositoryHandler.getCredential(WRONG_USER_4TEST)).thenReturn(wrongUser);
 
             final DbOrganization organization = new DbOrganization();

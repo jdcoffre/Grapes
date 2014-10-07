@@ -1,11 +1,5 @@
 package org.axway.grapes.server.config;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.yammer.dropwizard.config.Configuration;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 /**
  * Database configuration
  *
@@ -14,35 +8,18 @@ import javax.validation.constraints.NotNull;
  *
  * @author jdcoffre
  */
-public class DataBaseConfig  extends Configuration{
+public class DataBaseConfig {
 
-
-	@Valid
-    @NotNull
-    @JsonProperty
     private String host;
-	
-	@Valid
-    @NotNull
-    @JsonProperty
+
     private int port;
-	
-	@Valid
-    @JsonProperty
+
     private String user;
-	
-	@Valid
-    @JsonProperty
+
     private String pwd;
-	
-	@Valid
-    @NotNull
-    @JsonProperty
+
     private String datastore;
-	
-	@Valid
-    @NotNull
-    @JsonProperty
+
     private String dbsystem;
 
 	public String getHost() {

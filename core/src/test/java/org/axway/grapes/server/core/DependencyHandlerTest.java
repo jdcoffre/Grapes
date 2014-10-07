@@ -3,14 +3,13 @@ package org.axway.grapes.server.core;
 
 import org.axway.grapes.commons.datamodel.Dependency;
 import org.axway.grapes.commons.datamodel.Scope;
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.FiltersHolder;
 import org.axway.grapes.server.db.RepositoryHandler;
 import org.axway.grapes.server.db.datamodel.DbArtifact;
 import org.axway.grapes.server.db.datamodel.DbModule;
 import org.junit.Test;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
@@ -24,21 +23,20 @@ public class DependencyHandlerTest {
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final DependencyHandler dependencyHandler = new DependencyHandler(repositoryHandler);
 
-        WebApplicationException exception = null;
+        GrapesException exception = null;
         try{
             dependencyHandler.getModuleDependencies("doesNotExist", mock(FiltersHolder.class));
         }
-        catch (WebApplicationException e){
+        catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
 
     }
 
     @Test
-    public void getModuleDependenciesOnAModuleThatDoesNotHaveAny(){
+    public void getModuleDependenciesOnAModuleThatDoesNotHaveAny() throws GrapesException {
         final DbModule module = new DbModule();
         module.setName("module");
         module.setVersion("1.0.0");
@@ -56,7 +54,7 @@ public class DependencyHandlerTest {
     }
 
     @Test
-    public void getModuleDependenciesReturnsDirectModuleDependenciesWhatEverTheScope(){
+    public void getModuleDependenciesReturnsDirectModuleDependenciesWhatEverTheScope() throws GrapesException {
         final DbModule module = new DbModule();
         module.setName("module");
         module.setVersion("1.0.0");
@@ -112,7 +110,7 @@ public class DependencyHandlerTest {
     }
 
     @Test
-    public void getModuleDependenciesReturnsAlsoSubModuleDependenciesWhatEverTheScope(){
+    public void getModuleDependenciesReturnsAlsoSubModuleDependenciesWhatEverTheScope() throws GrapesException {
         final DbModule module = new DbModule();
         module.setName("module");
         module.setVersion("1.0.0");
@@ -169,7 +167,7 @@ public class DependencyHandlerTest {
     }
 
     @Test
-    public void getModuleDependenciesWithADepth(){
+    public void getModuleDependenciesWithADepth() throws GrapesException {
         final DbModule module1 = new DbModule();
         module1.setName("module1");
         module1.setVersion("1.0.0");
@@ -234,7 +232,7 @@ public class DependencyHandlerTest {
     }
 
     @Test
-    public void getModuleDependenciesWithFullRecursiveParam(){
+    public void getModuleDependenciesWithFullRecursiveParam() throws GrapesException {
         final DbModule module1 = new DbModule();
         module1.setName("module1");
         module1.setVersion("1.0.0");
@@ -295,7 +293,7 @@ public class DependencyHandlerTest {
     }
 
     @Test
-    public void getModuleDependenciesCountDependenciesOnceEvenIfThereAreLoops(){
+    public void getModuleDependenciesCountDependenciesOnceEvenIfThereAreLoops() throws GrapesException {
         final DbModule module1 = new DbModule();
         module1.setName("module1");
         module1.setVersion("1.0.0");
@@ -353,7 +351,7 @@ public class DependencyHandlerTest {
     }
 
     @Test
-    public void getModuleDependenciesWithFiltersOnScopes(){
+    public void getModuleDependenciesWithFiltersOnScopes() throws GrapesException {
         final DbModule module = new DbModule();
         module.setName("module");
         module.setVersion("1.0.0");

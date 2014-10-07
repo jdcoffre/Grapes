@@ -1,7 +1,5 @@
 package org.axway.grapes.server.core.reports;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.yammer.dropwizard.views.View;
 import org.axway.grapes.commons.datamodel.Artifact;
 import org.axway.grapes.commons.datamodel.Dependency;
 import org.axway.grapes.server.db.DataUtils;
@@ -16,8 +14,7 @@ import java.util.*;
  *
  * @author jdcoffre
  */
-@JsonSerialize(using=DependencyReportSerializer.class)
-public class DependencyReport extends View {
+public class DependencyReport {
 
     private String title;
     private List<Dependency> dependencies = new ArrayList<Dependency>();
@@ -30,7 +27,6 @@ public class DependencyReport extends View {
 
 
     public DependencyReport(final String title) {
-        super("DependencyReport.ftl");
         this.title = title;
     }
 

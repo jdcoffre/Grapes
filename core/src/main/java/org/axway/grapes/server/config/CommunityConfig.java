@@ -1,10 +1,5 @@
 package org.axway.grapes.server.config;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.yammer.dropwizard.config.Configuration;
-
-import javax.validation.Valid;
-
 /**
  * Community configuration
  *
@@ -12,15 +7,10 @@ import javax.validation.Valid;
  *
  * @author jdcoffre
  */
-public class CommunityConfig extends Configuration{
+public class CommunityConfig {
 
-
-	@Valid
-    @JsonProperty
     private String issueTracker;
-	
-	@Valid
-    @JsonProperty
+
     private String onlineHelp;
 
     public String getIssueTracker() {

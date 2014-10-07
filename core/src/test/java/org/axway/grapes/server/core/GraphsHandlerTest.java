@@ -2,6 +2,7 @@ package org.axway.grapes.server.core;
 
 
 import org.axway.grapes.commons.datamodel.Scope;
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.graphs.AbstractGraph;
 import org.axway.grapes.server.core.graphs.GraphDependency;
 import org.axway.grapes.server.core.graphs.GraphElement;
@@ -37,7 +38,7 @@ public class GraphsHandlerTest {
     }
 
     @Test
-    public void getGraphOfModuleWithOneArtifactWithoutDependency(){
+    public void getGraphOfModuleWithOneArtifactWithoutDependency() throws GrapesException {
         repoHandler.loadTestCase(new TC01_ModuleWithOneArtifactWithoutDependency());
 
         final String moduleId = DbModule.generateID(TC01_ModuleWithOneArtifactWithoutDependency.MODULE_NAME, TC01_ModuleWithOneArtifactWithoutDependency.MODULE_VERSION);
@@ -53,7 +54,7 @@ public class GraphsHandlerTest {
     }
 
     @Test
-    public void getGraphOfModuleWithOneArtifactAndDependencyOfEachType(){
+    public void getGraphOfModuleWithOneArtifactAndDependencyOfEachType() throws GrapesException {
         repoHandler.loadTestCase(new TC02_ModuleWithOneArtifactAndDependencyOfEachType());
 
         final String moduleId = DbModule.generateID(TC02_ModuleWithOneArtifactAndDependencyOfEachType.MODULE_NAME, TC02_ModuleWithOneArtifactAndDependencyOfEachType.MODULE_VERSION);
@@ -90,7 +91,7 @@ public class GraphsHandlerTest {
     }
 
     @Test
-    public void getGraphOfModuleWithOneSubmoduleAndDependencyOfEachType(){
+    public void getGraphOfModuleWithOneSubmoduleAndDependencyOfEachType() throws GrapesException {
         repoHandler.loadTestCase(new TC03_ModuleWithOneSubmoduleAndDependencyOfEachType());
 
         final String moduleId = DbModule.generateID(TC03_ModuleWithOneSubmoduleAndDependencyOfEachType.MODULE_NAME, TC03_ModuleWithOneSubmoduleAndDependencyOfEachType.MODULE_VERSION);
@@ -111,7 +112,7 @@ public class GraphsHandlerTest {
     }
 
     @Test
-    public void getGraphOfModuleWithOneArtifactAndThirdParty(){
+    public void getGraphOfModuleWithOneArtifactAndThirdParty() throws GrapesException {
         repoHandler.loadTestCase(new TC05_ModuleWithOneArtifactAndThirdParty());
 
         final String moduleId = DbModule.generateID(TC05_ModuleWithOneArtifactAndThirdParty.MODULE_NAME, TC05_ModuleWithOneArtifactAndThirdParty.MODULE_VERSION);
@@ -130,7 +131,7 @@ public class GraphsHandlerTest {
     }
 
     @Test
-    public void getGraphOfModuleWithOneArtifactWithTransitiveDependencies(){
+    public void getGraphOfModuleWithOneArtifactWithTransitiveDependencies() throws GrapesException {
         repoHandler.loadTestCase(new TC06_ModuleWithOneArtifactWithTransitiveDependencies());
 
         final String moduleId = DbModule.generateID(TC06_ModuleWithOneArtifactWithTransitiveDependencies.MODULE_NAME, TC06_ModuleWithOneArtifactWithTransitiveDependencies.MODULE_VERSION);
@@ -149,7 +150,7 @@ public class GraphsHandlerTest {
     }
 
     @Test
-    public void getGraphOfModuleWithOneArtifactWithLoopDependencies(){
+    public void getGraphOfModuleWithOneArtifactWithLoopDependencies() throws GrapesException {
         repoHandler.loadTestCase(new TC07_ModuleWithOneArtifactWithLoopDependencies());
 
         final String moduleId = DbModule.generateID(TC07_ModuleWithOneArtifactWithLoopDependencies.MODULE_NAME, TC07_ModuleWithOneArtifactWithLoopDependencies.MODULE_VERSION);
@@ -161,7 +162,7 @@ public class GraphsHandlerTest {
     }
 
     @Test
-    public void getTreeOfModuleWithOneArtifactWithoutDependency(){
+    public void getTreeOfModuleWithOneArtifactWithoutDependency() throws GrapesException {
         repoHandler.loadTestCase(new TC01_ModuleWithOneArtifactWithoutDependency());
 
         final String moduleId = DbModule.generateID(TC01_ModuleWithOneArtifactWithoutDependency.MODULE_NAME, TC01_ModuleWithOneArtifactWithoutDependency.MODULE_VERSION);
@@ -173,7 +174,7 @@ public class GraphsHandlerTest {
     }
 
     @Test
-    public void getTreeOfModuleWithOneSubmodule(){
+    public void getTreeOfModuleWithOneSubmodule() throws GrapesException {
         repoHandler.loadTestCase(new TC03_ModuleWithOneSubmoduleAndDependencyOfEachType());
 
         final String moduleId = DbModule.generateID(TC03_ModuleWithOneSubmoduleAndDependencyOfEachType.MODULE_NAME, TC03_ModuleWithOneSubmoduleAndDependencyOfEachType.MODULE_VERSION);

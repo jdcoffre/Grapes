@@ -1,15 +1,13 @@
 package org.axway.grapes.server.core;
 
 
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.FiltersHolder;
 import org.axway.grapes.server.db.RepositoryHandler;
 import org.axway.grapes.server.db.datamodel.DbArtifact;
 import org.axway.grapes.server.db.datamodel.DbLicense;
-import org.junit.Assert;
 import org.junit.Test;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.Collections;
 
 import static junit.framework.TestCase.assertEquals;
@@ -41,7 +39,7 @@ public class LicenseHandlerTest {
     }
 
     @Test
-    public void getAnExistingLicense(){
+    public void getAnExistingLicense() throws GrapesException {
         final DbLicense license = new DbLicense();
         license.setName("test");
         license.setLongName("Grapes Test License");
@@ -61,20 +59,19 @@ public class LicenseHandlerTest {
     public void getALicenseThatDoesNotExist(){
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final LicenseHandler handler = new LicenseHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.getLicense("doesNotExist");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        Assert.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void deleteAnExistingLicense(){
+    public void deleteAnExistingLicense() throws GrapesException {
         final DbLicense license = new DbLicense();
         license.setName("test");
         license.setLongName("Grapes Test License");
@@ -100,20 +97,19 @@ public class LicenseHandlerTest {
     public void deleteAnArtifactThatDoesNotExist(){
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final LicenseHandler handler = new LicenseHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.deleteLicense("doesNotExist");
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        Assert.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test
-    public void approveALicense(){
+    public void approveALicense() throws GrapesException {
         final DbLicense license = new DbLicense();
         license.setName("test");
         license.setLongName("Grapes Test License");
@@ -133,16 +129,15 @@ public class LicenseHandlerTest {
     public void approveALicenseThatDoesNotExist(){
         final RepositoryHandler repositoryHandler = mock(RepositoryHandler.class);
         final LicenseHandler handler = new LicenseHandler(repositoryHandler);
-        WebApplicationException exception = null;
+        GrapesException exception = null;
 
         try {
             handler.approveLicense("doesNotExist", true);
-        }catch (WebApplicationException e){
+        }catch (GrapesException e){
             exception = e;
         }
 
         assertNotNull(exception);
-        Assert.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
     }
 
     @Test

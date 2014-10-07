@@ -2,6 +2,7 @@ package org.axway.grapes.server.core;
 
 import org.axway.grapes.commons.datamodel.DataModelFactory;
 import org.axway.grapes.commons.datamodel.Dependency;
+import org.axway.grapes.server.core.exceptions.GrapesException;
 import org.axway.grapes.server.core.options.FiltersHolder;
 import org.axway.grapes.server.core.options.filters.CorporateFilter;
 import org.axway.grapes.server.core.reports.DependencyReport;
@@ -48,7 +49,7 @@ public class DependencyHandler {
      * @param filters FiltersHolder
      * @return List<Dependency>
      */
-    public List<Dependency> getModuleDependencies(final String moduleId, final FiltersHolder filters){
+    public List<Dependency> getModuleDependencies(final String moduleId, final FiltersHolder filters) throws GrapesException {
         final DbModule module = moduleHandler.getModule(moduleId);
         final DbOrganization organization = moduleHandler.getOrganization(module);
         filters.setCorporateFilter(new CorporateFilter(organization));
@@ -88,7 +89,7 @@ public class DependencyHandler {
      * @param filters FiltersHolder
      * @return DependencyReport
      */
-    public DependencyReport getDependencyReport(final String moduleId, final FiltersHolder filters) {
+    public DependencyReport getDependencyReport(final String moduleId, final FiltersHolder filters) throws GrapesException {
         final DbModule module = moduleHandler.getModule(moduleId);
         final DbOrganization organization = moduleHandler.getOrganization(module);
         filters.setCorporateFilter(new CorporateFilter(organization));
