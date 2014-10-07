@@ -33,8 +33,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.6</java.version>
-		<jv.version>1.6</jv.version>
+		<java.version>1.7</java.version>
+		<jv.version>1.7</jv.version>
 		<maven.version>3.0.3</maven.version>
 		<jakson.version>2.2.0</jakson.version>
 	</properties>
@@ -254,6 +254,27 @@
                 </plugin>
 			</plugins>
 		</pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>${java.version}</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 	</build>
 
     <profiles>
