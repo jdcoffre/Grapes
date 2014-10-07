@@ -106,8 +106,8 @@
 
 	<modules>
 		<module>commons</module>
-		<module>utils</module>
-		<module>server</module>
+        <module>core</module>
+        <module>utils</module>
 	</modules>
 
 	<build>

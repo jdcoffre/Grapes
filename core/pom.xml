@@ -5,7 +5,7 @@
 	<artifactId>grapes-server</artifactId>
 	
 	<name>Grapes server</name>
-	<description>Http REST server that stores dependencies information </description>
+	<description>Technical layer that holds all the dependency management and the database connection.</description>
 
 	<parent>
 		<groupId>org.axway.grapes</groupId>
